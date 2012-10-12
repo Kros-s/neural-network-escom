@@ -13,7 +13,8 @@ import perceptronM.GUI.GUI;
  * @author imarban
  */
 public class Const {
-    public static final int ROW_COUNT = 6;
+    public static final int ROW_COUNT = 8;
+    public static final int COLUMN_COUNT = 5;
     public static final int W = 50;
     public static final int H = W;
     public static int epoch = 1000;
