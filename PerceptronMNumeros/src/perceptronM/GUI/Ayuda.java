@@ -188,7 +188,7 @@ public class Ayuda extends JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        if(index<(Const.TotalAbecedario-1)){
+        if(index<(Const.TotalDigitos-1)){
             index++;
             imaIcon.setIcon(ico[index]);
         }

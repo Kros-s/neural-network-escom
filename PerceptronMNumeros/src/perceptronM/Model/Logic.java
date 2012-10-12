@@ -14,8 +14,8 @@ import perceptronM.GUI.GUI;
  */
 public class Logic {
     
-    private float pesos[][] = new float[Const.TotalAbecedario][Const.ROW_COUNT*Const.ROW_COUNT];
-    private float b[][] = new float[Const.TotalAbecedario][1];
+    private float pesos[][] = new float[Const.TotalDigitos][Const.ROW_COUNT*Const.COLUMN_COUNT];
+    private float b[][] = new float[Const.TotalDigitos][1];
     public static boolean aprendio = false;
     public static int aciertos_Fijos = 0;
     private float resul[][];
@@ -61,13 +61,13 @@ public class Logic {
          Const.LogTexto.setLength(0);
         //Const.Log(Const.LogTexto.toString());
         Random generator = new Random();
-        for(int i=0;i<Const.TotalAbecedario;i++){
+        for(int i=0;i<Const.TotalDigitos;i++){
             for(int j=0;j<(Const.ROW_COUNT*Const.ROW_COUNT);j++){
                 pesos[i][j] = generator.nextFloat();
             }
         }
         
-        for(int i=0;i<Const.TotalAbecedario;i++){
+        for(int i=0;i<Const.TotalDigitos;i++){
             b[i][0] = generator.nextFloat();
         }
     }
@@ -264,12 +264,12 @@ public class Logic {
          
          Propiedades p = new Propiedades("fijos.properties");
          p.abrirPropiedad();
-        for(int i=0;i<Const.TotalAbecedario;i++){
+        for(int i=0;i<Const.TotalDigitos;i++){
              for(int j=0;j<(Const.ROW_COUNT*Const.ROW_COUNT);j++){
                 p.cambiarPropiedad("pesosFijo["+i+"]["+j+"]", String.valueOf(pesos[i][j]));
              }
         }
-        for(int i=0;i<Const.TotalAbecedario;i++){
+        for(int i=0;i<Const.TotalDigitos;i++){
             p.cambiarPropiedad("umbralFijo["+i+"][0]", String.valueOf(b[i][0]));
         }
         

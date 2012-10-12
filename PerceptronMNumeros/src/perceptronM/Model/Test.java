@@ -210,12 +210,12 @@ public class Test {
          float um_pr[][] = GUI.stack.get(ind_pesos).getLogic().getUmbral();
          
          p.abrirPropiedad();
-        for(int i=0;i<Const.TotalAbecedario;i++){
+        for(int i=0;i<Const.TotalDigitos;i++){
              for(int j=0;j<(Const.ROW_COUNT*Const.ROW_COUNT);j++){
                 p.cambiarPropiedad("pesosFijo["+i+"]["+j+"]", String.valueOf(pe_pr[i][j]));
              }
         }
-        for(int i=0;i<Const.TotalAbecedario;i++){
+        for(int i=0;i<Const.TotalDigitos;i++){
             p.cambiarPropiedad("umbralFijo["+i+"][0]", String.valueOf(um_pr[i][0]));
         }
         

@@ -23,7 +23,7 @@ import perceptronM.Model.Test;
  * @author PRETXEL-H
  * @author imarban
  * Interfaz gráfica principal de la aplicación, que contiene dos grids, uno de entrada
- * y otro de salida. También cuenta un un Log, para verificar los calculos realiados.
+ * y otro de salida. También cuenta un un Log, para verificar los calculos realizsados.
  */
 public class GUI extends JFrame {
     
@@ -80,9 +80,9 @@ public class GUI extends JFrame {
             selectedPanel.revalidate();
             selectedPanel.repaint();
             
-            /*for(int r=0;r<Const.COLUMN_COUNT*Const.ROW_COUNT;r++){
+            for(int r=0;r<Const.COLUMN_COUNT*Const.ROW_COUNT;r++){
                 System.out.println("i ="+r+" val="+Const.prueba[r][0]);
-            }*/
+            }
 
             }
             //[((p.y)/W)*ROW_COUNT + (p.x)/W] = 1;
@@ -230,7 +230,7 @@ public class GUI extends JFrame {
          GUI.txtLogger.append(Const.LogTexto.toString());
          Const.LogTexto.setLength(0);
          //Const.Log(Const.LogTexto.toString());
-         for(int j=0;j<Const.ROW_COUNT*Const.ROW_COUNT;j++){
+         for(int j=0;j<Const.ROW_COUNT*Const.COLUMN_COUNT;j++){
              if (Const.entradas[j][letra] == 1){
                 JPanel panel = (JPanel) panelMaestroOut.getComponent(j);
                 panel.setBackground(Color.black);
