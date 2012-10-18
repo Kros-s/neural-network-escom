@@ -14,6 +14,10 @@ import perceptronM.GUI.GUI;
  */
 public class Logic {
     
+//    la primer matriz es de 80xraiz de 800
+//    la capa oculta tiene raiz de 800 neuronas
+//    la segunda matriz es de raiz de 800x10    
+    
     private float pesos[][] = new float[Const.TotalDigitos][Const.ROW_COUNT*Const.COLUMN_COUNT];
     private float b[][] = new float[Const.TotalDigitos][1];
     public static boolean aprendio = false;
