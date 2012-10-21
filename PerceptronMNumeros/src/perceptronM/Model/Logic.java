@@ -14,24 +14,37 @@ import perceptronM.GUI.GUI;
  */
 public class Logic {
     
-//    la primer matriz es de 80xraiz de 800
-//    la capa oculta tiene raiz de 800 neuronas
-//    la segunda matriz es de raiz de 800x10    
+//      La estructura de la red es:
+//      W1 = [20x40]
+//      b1 = [20x1]
+//      W2 = [10x20]
+//      b2 = [1x10]
+//      a0 = [40x1]
+//      a1 = [20x1]
+//      a2 = [10x1]
     
-    private float pesos[][] = new float[Const.TotalDigitos][Const.ROW_COUNT*Const.COLUMN_COUNT];
-    private float b[][] = new float[Const.TotalDigitos][1];
+    
+    private float W1[][] = new float[Const.TotalPatrones/2][Const.TotalPatrones];
+    private float b1[][] = new float[Const.TotalPatrones/2][1];
+    private float W2[][] = new float[Const.TotalPatrones/4][Const.TotalPatrones/2];
+    private float b2[][] = new float[Const.TotalPatrones/4][1];
+    private float a1[][];
+    private float a2[][];
+    private float s2[][] = new float[Const.TotalPatrones/4][1];
+    private float s1[][] = new float[Const.TotalPatrones/2][1];
+    private float errorRMS[][] = new float[Const.TotalDigitos][1];
     public static boolean aprendio = false;
     public static int aciertos_Fijos = 0;
     private float resul[][];
-    private float error[][];
+    private float error[][][] = new float[Const.NumJuegos*10][Const.TotalPatrones/4][1];
     private short aciertos = 0;
-    
+    public static int NumEpocas = 0;
     
     private String CLASSNAME = Logic.class.getName();
     
     public Logic(){
-        this.pesos=Const.pesosFijo;   
-        this.b=Const.umbralFijo;
+        //this.pesos=Const.pesosFijo;   
+        //this.b2=Const.umbralFijo;
                 
     }
     
@@ -43,135 +56,221 @@ public class Logic {
         return this.aciertos;
     }
     
-    public float[][] getUmbral(){
-        return b;
+    public float[][] getUmbral_b1(){
+        return b1;
     }
     
-     public float[][] getPesos(){
-        return pesos;
+    public float[][] getUmbral_b2(){
+        return b2;
     }
     
+    public float[][] getPesos_w1(){
+        return W1;
+    }
+    
+     public float[][] getPesos_w2(){
+        return W2;
+    }
+     
     public void setB(float b[][]){
-        this.b = b;
+        this.b2 = b;
     }
     
-    public void setPesos(float pe[][]){
-        this.pesos = pe;
+    public void setPesos(float w1[][], float w2[][]){
+        this.W1 = w1;
+        this.W2 = w2;
     }
     
     public  void init(){
         Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Init Generator Pesos y b\n");
          GUI.txtLogger.append(Const.LogTexto.toString());
          Const.LogTexto.setLength(0);
-        //Const.Log(Const.LogTexto.toString());
         Random generator = new Random();
-        for(int i=0;i<Const.TotalDigitos;i++){
-            for(int j=0;j<(Const.ROW_COUNT*Const.ROW_COUNT);j++){
-                pesos[i][j] = generator.nextFloat();
+        
+        //Inicializa el Peso W1
+        for(int i=0;i<Const.TotalPatrones/2;i++){
+            for(int j=0;j<Const.TotalPatrones;j++){
+                W1[i][j] = generator.nextFloat();
             }
         }
         
-        for(int i=0;i<Const.TotalDigitos;i++){
-            b[i][0] = generator.nextFloat();
+         //Inicializa el Peso W2
+        for(int i=0;i<Const.TotalPatrones/4;i++){
+            for(int j=0;j<Const.TotalPatrones/2;j++){
+                W2[i][j] = generator.nextFloat();
+            }
+        }
+        
+         //Inicializa el Umbral b1
+        for(int i=0;i<Const.TotalPatrones/2;i++){
+            b1[i][0] = generator.nextFloat();
+        }
+        
+         //Inicializa el Umbral b2
+        for(int i=0;i<Const.TotalPatrones/4;i++){
+            b2[i][0] = generator.nextFloat();
         }
     }
     
+    
+    //inicia Entrenamiento
     public void train(){
         
-        float en[][]; 
         int count = 0;
         int numTotalEpoch = 1;
         
         Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Train\n");
         GUI.txtLogger.append(Const.LogTexto.toString());
         Const.LogTexto.setLength(0);
-        //Const.Log(Const.LogTexto.toString());
+       
         
         
         while(Const.epoch>0){
-        count = 0;
-            Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - ****Epoca**** : ").append(numTotalEpoch).append("\n");
-        GUI.txtLogger.append(Const.LogTexto.toString());
-        Const.LogTexto.setLength(0);
-        //Const.Log(Const.LogTexto.toString());
         
-        for (int i=0;i<Const.entradas[0].length;i++){
-            en = Matriz.copy(Const.entradas, i);
-            resul = Matriz.producto(pesos, en);
-            resul = Matriz.suma(resul, b);
-        
-    
-        resul = hardlim(resul);
-        //System.out.println("Hardlim"+ resul.toString());
-        
-        error = error(Const.target, resul, i);
-                Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Error\n");
-         GUI.txtLogger.append(Const.LogTexto.toString());
-         Const.LogTexto.setLength(0);
-        //Const.Log(Const.LogTexto.toString());
-       
-        
-        if (verificaError(error)==false){
-            System.out.println("VerificaError"); 
-            pesos = updatePesos(pesos, error, Matriz.transpuesta(en));
-            //System.out.println("UpdatePesos");
-            b = updateB(b, error);
-            //System.out.println("UpdateB");
-                    Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - UpdatePesos, UpdateB\n");
-             GUI.txtLogger.append(Const.LogTexto.toString());
-             Const.LogTexto.setLength(0);
-            //Const.Log(Const.LogTexto.toString());
-        }else{
-            count++;
-                    Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Verificar True\n");
-             GUI.txtLogger.append(Const.LogTexto.toString());
-             Const.LogTexto.setLength(0);
-            //Const.Log(Const.LogTexto.toString());
-        }
-        
-        }
-        
-        if (count == Const.entradas[0].length){
-            aprendio = true;
-            break;
-        }
+            //Realiza todas las propagaciones hacia adelante y guarda los errores
+            for (int i=0;i<Const.NumJuegos*Const.TotalDigitos;i++){
+      
+                    propagacion_adelante(i);
+            }
+            //Calcula el error cuadratico medio de los 30 errores
+            RMS();
+            
+            //Verifica si el error cumple con el error objetivo
+             if (verificaError() == false){
+                        //Calcula las sensibilidades
+                        retropropagacion();
+                        //Actualiza los pesos y los umbrales
+                        W2 = updatePesos_W2();
+                        b2 = updateB2();
+                        W1 = updatePesos_W1();
+                        b1 = updateB1();
+                    }else{
+                        aprendio = true;
+                        break;
+                    }
         
         Const.epoch--;
         numTotalEpoch++;
         }
         
-       // System.out.println("Aprendio = "+aprendio);
-        Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Aprendio = ").append(aprendio).append("\n");
-         GUI.txtLogger.append(Const.LogTexto.toString());
-         Const.LogTexto.setLength(0);
-        //Const.Log(Const.LogTexto.toString());
+        Mostrar_Resultados(numTotalEpoch); 
+        NumEpocas = numTotalEpoch;
+    }
+    
+    //Muestra los Resultados en el Logger
+    public void Mostrar_Resultados(int epoch){
         
-        Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Pesos: \n");
-        for (int k=0;k<pesos.length;k++){
-            Const.LogTexto.append("[ "); 
-            for(int j=0;j<pesos[0].length;j++){
-                    Const.LogTexto.append(pesos[k][j]).append(", ");
+        Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Mostrar Resultados\n");
+        GUI.txtLogger.append(Const.LogTexto.toString());
+        Const.LogTexto.setLength(0);
+        
+        Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Aprendio: ").append(aprendio).append("\n");
+        Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Num de Epocas: ").append(epoch).append("\n");
+        
+        Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Matriz de Pesos W1: \n");
+        for (int i=0;i<W1.length;i++){
+            for(int j=0;j<W1[0].length;j++){
+                Const.LogTexto.append(W1[i][j]).append(" - ");
             }
-            Const.LogTexto.append(" ]"); 
             Const.LogTexto.append("\n");
         }
+        GUI.txtLogger.append(Const.LogTexto.toString());
+        Const.LogTexto.setLength(0);
         
-        Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - b: \n");
+         Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Matriz de Umbral b1: \n");
+        for (int i=0;i<b1.length;i++){
+            for(int j=0;j<b1[0].length;j++){
+                Const.LogTexto.append(b1[i][j]).append(" - ");
+            }
+            Const.LogTexto.append("\n");
+        }
+        GUI.txtLogger.append(Const.LogTexto.toString());
+        Const.LogTexto.setLength(0);
         
-       for (int j=0;j<b.length;j++){
-            Const.LogTexto.append(b[j][0]).append("\n");
-           
-       } 
+         Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Matriz de Pesos W2: \n");
+        for (int i=0;i<W2.length;i++){
+            for(int j=0;j<W2[0].length;j++){
+                Const.LogTexto.append(W2[i][j]).append(" - ");
+            }
+            Const.LogTexto.append("\n");
+        }
+        GUI.txtLogger.append(Const.LogTexto.toString());
+        Const.LogTexto.setLength(0);
+        
+         Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Matriz de Umbral b2: \n");
+        for (int i=0;i<b2.length;i++){
+            for(int j=0;j<b2[0].length;j++){
+                Const.LogTexto.append(b2[i][j]).append(" - ");
+            }
+            Const.LogTexto.append("\n");
+        }
+        GUI.txtLogger.append(Const.LogTexto.toString());
+        Const.LogTexto.setLength(0);
+        
+          Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Matriz de Errores Cuadraticos Medios: \n");
+        for (int i=0;i<errorRMS.length;i++){
+            for(int j=0;j<errorRMS[0].length;j++){
+                Const.LogTexto.append(errorRMS[i][j]).append(" - ");
+            }
+            Const.LogTexto.append("\n");
+        }
+        GUI.txtLogger.append(Const.LogTexto.toString());
+        Const.LogTexto.setLength(0);
         
         
-        
-         GUI.txtLogger.append(Const.LogTexto.toString());
-         Const.LogTexto.setLength(0);
-        //Const.Log(Const.LogTexto.toString());
-
-       
+    }
     
+    //Metodo que Realiza la propagacion hacia adelante de todos los numeros
+    public void propagacion_adelante(int index){
+        
+        if (index >= 0 && index < 10)
+        {
+            float en[][] = Matriz.copy(Const.entradas_1, index);
+            a1 = logsig(Matriz.suma(Matriz.producto(W1, en),b1));
+            a2 = Matriz.suma(Matriz.producto(W2, a1),b2);      
+        //float a2[][] = Matriz.producto(W2, a2)
+            error[index] = error(Const.target_1, a2, index);
+        }else if (index >=10 && index <20){
+            float en[][] = Matriz.copy(Const.entradas_2, (index-10));
+            a1 = logsig(Matriz.suma(Matriz.producto(W1, en),b1));
+            a2 = Matriz.suma(Matriz.producto(W2, a1),b2);      
+        //float a2[][] = Matriz.producto(W2, a2)
+            error[index] = error(Const.target_2, a2, (index-10));
+        }else{
+            float en[][] = Matriz.copy(Const.entradas_3, (index-20));
+            a1 = logsig(Matriz.suma(Matriz.producto(W1, en),b1));
+            a2 = Matriz.suma(Matriz.producto(W2, a1),b2);      
+        //float a2[][] = Matriz.producto(W2, a2)
+            error[index] = error(Const.target_3, a2, (index-20));
+        }
+        
+    }
     
+    //Metodo que raliza la retropropagacion y calcula las sensibilidades
+    public void retropropagacion(){
+        
+        for(int i=0;i<Const.TotalDigitos;i++){
+            s2[i][0] = -2 * 1 * errorRMS[i][0]; 
+         }
+        
+        float iden[][] = Matriz.identidad(a1);
+        
+        s1 = Matriz.producto(Matriz.producto(iden, Matriz.transpuesta(W2)),s2);
+    }
+    
+    //Metodo  que calcula el error edio cuadratico
+    public void RMS(){
+        float sum = 0f;
+        
+            for(int j=0;j<Const.TotalDigitos;j++){
+                
+                for (int i=0;i<Const.TotalDigitos*Const.NumJuegos;i++){
+                
+                sum = (float) (sum + Math.exp(error[i][j][0]));
+            }
+            errorRMS[j][0] = (float) (Math.sqrt(sum/Const.TotalDigitos));
+        }
+        
     }
     
     
@@ -193,56 +292,105 @@ public class Logic {
         return res;
     }
     
-    public boolean verificaError(float a[][]){
-        boolean flag = true;
+    //Metodo que calcula la función logsig
+    public float[][] logsig(float a[][]){
+        float res[][] = new float[a.length][1];
         for(int i=0;i<a.length;i++){
-            if(a[i][0]!=0){
-                flag = false;
-                break;
+            //System.out.println("Resultado antes de ser evaluado"+a[i][0]); 
+                res[i][0] = (float) (1/(1+Math.exp(a[i][0])));
+        }
+        return res;
+    }
+    
+    //Metodo que verifica si el error cumple con lo deseado
+    public boolean verificaError(){
+        boolean flag = false;
+        short ve = 0;
+        for(int i=0;i<Const.TotalDigitos;i++){
+            if(errorRMS[i][0] <= Const.errorObjt){
+                ve++;
             }
         }
+        
+        if (ve == Const.TotalDigitos){
+            flag = true;
+        }
+        
         return flag;
     }
 
-    public float[][] updatePesos(float pesos[][], float error[][], float trans[][]){
-        return Matriz.suma(Matriz.producto(error, trans),pesos);
+    //Metodo que actualiza el Peso W2
+    public float[][] updatePesos_W2(){
+        
+        return Matriz.resta_M(W2,Matriz.producto(Matriz.producto_escalar(s2, Const.alpha),Matriz.transpuesta(a1)));
+         
     }
     
-    public float[][] updateB(float b[][], float error[][]){
-        return Matriz.suma(b, error);
+    //Metodo que Actualiza el Peso W1
+    public float[][] updatePesos_W1(){
+        
+        int numJuego = (int) Math.floor(Math.random()*4);
+        int numPatron = (int) Math.floor(Math.random()*10);
+        float a0[][];
+        
+        if (numJuego == 0){
+            a0 = Matriz.copy(Const.entradas_1, numPatron);
+        }else if (numJuego == 1){
+            a0 = Matriz.copy(Const.entradas_2, numPatron);
+        }else{
+            a0 = Matriz.copy(Const.entradas_3, numPatron);
+        }
+        
+        return Matriz.resta_M(W1, Matriz.producto(Matriz.producto_escalar(s1, Const.alpha),Matriz.transpuesta(a0)));
+         
+    }
+    
+    //Metodo que actualiza el umbral b2
+    public float[][] updateB2(){
+        return Matriz.resta_M(b2,Matriz.producto_escalar(s2, Const.alpha));
+    }
+    
+    //Metodo que actualiza el umbral b1
+    public float[][] updateB1(){
+        return Matriz.resta_M(b1,Matriz.producto_escalar(s1, Const.alpha));
     }
     
     
     public  void Test(){
             float en[][];
             float eval[][];
+            float sh[][];
+            float sf[][];
             
             Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Evaluar\n");
             
             
-            for(int j=0;j<Const.entradas[0].length;j++){
-            Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Evaluar Letra : ").append(Const.abecedario[j]).append("\n");  
-            en = Matriz.copy(Const.entradas, j);
-            eval = hardlim(Matriz.suma(Matriz.producto(pesos, en),b));
-                for(int i=0;i<eval.length;i++){
+            for (int i=0; i<Const.entradas_1[0].length;i++){
+                Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Evaluar Numero : ").append(Const.numeros[i]).append("\n"); 
+                en = Matriz.copy(Const.entradas_1, i);
+                sh = logsig(Matriz.suma(Matriz.producto(W1, en),b1));
+                sf = Matriz.suma(Matriz.producto(W2, sh),b2);
+                
+                for(int j=0;j<sf.length;j++){
                     //System.out.println(eval[i][0]+"\n");
-                    Const.LogTexto.append(eval[i][0]).append("\n");
+                    Const.LogTexto.append(sf[j][0]).append("\n");
                     
                 }
-            
+                
             }
+  
             GUI.txtLogger.append(Const.LogTexto.toString());
             Const.LogTexto.setLength(0);
             //Const.Log(Const.LogTexto.toString());
     }
     
-    
+    /**
     public int TestGrid(float p[][]){
         float en[][];
         en = hardlim(Matriz.suma(Matriz.producto(pesos, p),b));
-        /*for(int i=0;i<en.length;i++)
-            for(int j=0;j<en[0].length;j++)
-                System.out.println("Salida "+ en[i][j]);*/
+        //for(int i=0;i<en.length;i++)
+         //   for(int j=0;j<en[0].length;j++)
+           //     System.out.println("Salida "+ en[i][j]);
         
         for(int i=0;i<Const.target.length;i++){
             if(verificaError(Matriz.resta(Const.target, en, i))){
@@ -252,13 +400,14 @@ public class Logic {
         
       return -1; 
     }
-    
-    
+    */
+    /*
      public float[][] TestGrid2(float p[][]){
         
         return hardlim(Matriz.suma(Matriz.producto(pesos, p),b));
     }
-     
+     */
+    /*
      public boolean fijarValores_Properties() throws FileNotFoundException, IOException{
         //Propiedades props=new Propiedades("fijos.properties");
          
@@ -280,8 +429,8 @@ public class Logic {
         p.cerrarPropiedad();
         return true;
      }
-     
-     
+     */
+     /*
      public void Evalua(){
          int index_vocal;
          int aciertos_eval = 0;
@@ -328,5 +477,5 @@ public class Logic {
         Const.LogTexto.setLength(0);
         aciertos_Fijos = aciertos_eval;
      }
-     
+     */
 }

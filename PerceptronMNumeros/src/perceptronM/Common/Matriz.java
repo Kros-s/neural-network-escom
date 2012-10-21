@@ -32,8 +32,8 @@ public final class Matriz {
     
     public static float[][] copy(float A[][],int letra){
         
-        float C[][] = new float[Const.ROW_COUNT*Const.ROW_COUNT][1];
-        for (int i=0;i<(Const.ROW_COUNT*Const.ROW_COUNT);i++){
+        float C[][] = new float[A.length][1];
+        for (int i=0;i<(Const.ROW_COUNT*Const.COLUMN_COUNT);i++){
             C[i][0] = A[i][letra];
         }
         return C;
@@ -61,6 +61,18 @@ public final class Matriz {
     return result;
     }
     
+     public static float[][] resta_M(float A[][], float B[][]){
+        
+        float result[][] = new float[A.length][B[0].length];
+        for (int i=0;i<A.length;i++){
+            for(int j=0;j<A[0].length;j++){
+                result[i][j] = A[i][j] - B[i][j];
+            }
+        }
+    return result;
+    }
+     
+     
     public static float[][] transpuesta(float T[][]){
         float result[][] = new float[T[0].length][T.length];
         
@@ -70,6 +82,32 @@ public final class Matriz {
             }
         }
         return result;
+    }
+    
+    public static float[][] identidad(float a[][]){
+        float result[][] = new float[a.length][a.length];
+        
+        for (int i=0;i<a.length;i++){
+            for(int j=0;j<a.length;j++){
+                if (i==j){
+                    result[i][j] = a[i][0];
+                }else{
+                    result[i][j] = 0;
+                }
+                
+               }
+        }
+        return result;
+    }
+    
+    public static float[][] producto_escalar(float a[][], float escalar){
+        float [][] res = new float[a.length][a[0].length];
+        for(int i=0;i<a.length;i++){
+            for(int j=0;j<a[0].length;j++){
+                res[i][j] = escalar * a[i][j]; 
+            }
+        }
+        return res;
     }
     
 } 
