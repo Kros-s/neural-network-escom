@@ -222,7 +222,7 @@ public class Logic {
     
     //Metodo que Realiza la propagacion hacia adelante de todos los numeros
     public void propagacion_adelante(int index){
-        
+        Matriz.zeros(error[0]);
         if (index >= 0 && index < 10)
         {
             float en[][] = Matriz.copy(Const.entradas_1, index);
@@ -254,28 +254,29 @@ public class Logic {
          }
         
         float iden[][] = Matriz.identidad(a1);
-        
-        s1 = Matriz.producto(Matriz.producto(iden, Matriz.transpuesta(W2)),s2);
+        s1=Matriz.producto(Matriz.producto(Matriz.producto(Matriz.producto(Matriz.resta(1, a1),a1), iden), Matriz.transpuesta(W2)), s2);
+        //s1 = Matriz.producto(Matriz.producto(iden, Matriz.transpuesta(W2)),s2);
     }
     
-    //Metodo  que calcula el error edio cuadratico
+    //Metodo  que calcula el error medio cuadratico
     public void RMS(){
-        float sum = 0f;
-        
+        float sum;
             for(int j=0;j<Const.TotalDigitos;j++){
-                
+              sum=0f;
                 for (int i=0;i<Const.TotalDigitos*Const.NumJuegos;i++){
                 
-                sum = (float) (sum + Math.exp(error[i][j][0]));
+                    //sum = (float) (sum + Math.exp(error[i][j][0]));
+                    sum = (float) (sum + Math.pow(error[i][j][0],2));
             }
-            errorRMS[j][0] = (float) (Math.sqrt(sum/Const.TotalDigitos));
+            //errorRMS[j][0] = (float) (sum/Const.TotalDigitos);
+            errorRMS[j][0] = (float) (sum/Const.TotalDigitos*Const.NumJuegos);
         }
         
     }
     
     
-    public float[][] error (float t[][], float a[][], int letra){
-        return Matriz.resta(t, a, letra);
+    public float[][] error (float t[][], float a[][], int numero){
+        return Matriz.resta(t, a, numero);
     }
     
     
@@ -316,6 +317,18 @@ public class Logic {
             flag = true;
         }
         
+        return flag;
+    }
+    
+    public boolean verificaError(float a[][]){
+        boolean flag = true;
+        for(int i=0;i<a.length;i++){
+            double b=Math.sqrt(Math.pow(((double)a[i][0]),2));
+            if (b>Const.errorObjt){
+                flag = false;
+                break;
+            }
+        }
         return flag;
     }
 
@@ -384,29 +397,43 @@ public class Logic {
             //Const.Log(Const.LogTexto.toString());
     }
     
-    /**
+    
     public int TestGrid(float p[][]){
-        float en[][];
-        en = hardlim(Matriz.suma(Matriz.producto(pesos, p),b));
-        //for(int i=0;i<en.length;i++)
-         //   for(int j=0;j<en[0].length;j++)
-           //     System.out.println("Salida "+ en[i][j]);
+        float en[][], fn[][];
+        en = logsig(Matriz.suma(Matriz.producto(W1, p),b1));
+        fn = Matriz.suma(Matriz.producto(W2, en),b2);
+        /*for(int i=0;i<fn.length;i++)
+            for(int j=0;j<fn[0].length;j++)
+              System.out.println("Salida "+ fn[i][j]);*/
         
-        for(int i=0;i<Const.target.length;i++){
-            if(verificaError(Matriz.resta(Const.target, en, i))){
+        for(int i=0;i<Const.target_1.length;i++){
+            if(verificaError(Matriz.resta(Const.target_1, fn, i))){
                 return i;
+            }
+        }  
+         for(int j=0;j<Const.target_2.length;j++){
+            if(verificaError(Matriz.resta(Const.target_2, fn,j))){
+                return j;
+            }
+         }
+            
+         for(int k=0;k<Const.target_3.length;k++){
+            if(verificaError(Matriz.resta(Const.target_3, fn, k))){
+                return k;
             }
         }
         
       return -1; 
     }
-    */
-    /*
+
+    
      public float[][] TestGrid2(float p[][]){
-        
-        return hardlim(Matriz.suma(Matriz.producto(pesos, p),b));
+        float en[][], fn[][];
+        en = logsig(Matriz.suma(Matriz.producto(W1, p),b1));
+        fn = Matriz.suma(Matriz.producto(W2, en),b2);
+        return fn;
     }
-     */
+     
     /*
      public boolean fijarValores_Properties() throws FileNotFoundException, IOException{
         //Propiedades props=new Propiedades("fijos.properties");

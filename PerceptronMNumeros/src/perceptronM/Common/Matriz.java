@@ -50,12 +50,23 @@ public final class Matriz {
     return result;
     }
     
-     public static float[][] resta(float A[][], float B[][], int letra){
+     public static float[][] resta(float A[][], float B[][], int numero){
         
         float result[][] = new float[A.length][B[0].length];
         for (int i=0;i<B[0].length;i++){
             for(int j=0;j<A.length;j++){
-                result[j][i] = A[j][letra] - B[j][i];
+                result[j][i] = A[j][numero] - B[j][i];
+            }
+        }
+    return result;
+    }
+     
+      public static float[][] resta(int num, float A[][]){
+        
+        float result[][] = new float[A.length][A[0].length];
+        for (int i=0;i<A[0].length;i++){
+            for(int j=0;j<A.length;j++){
+                result[j][i] = num - A[j][i];
             }
         }
     return result;
@@ -90,7 +101,8 @@ public final class Matriz {
         for (int i=0;i<a.length;i++){
             for(int j=0;j<a.length;j++){
                 if (i==j){
-                    result[i][j] = a[i][0];
+                    //result[i][j] = a[i][0];
+                    result[i][j] = 1;
                 }else{
                     result[i][j] = 0;
                 }
@@ -105,6 +117,15 @@ public final class Matriz {
         for(int i=0;i<a.length;i++){
             for(int j=0;j<a[0].length;j++){
                 res[i][j] = escalar * a[i][j]; 
+            }
+        }
+        return res;
+    }
+    public static float[][] zeros(float a[][]){
+        float [][] res = new float[a.length][a[0].length];
+        for(int i=0;i<a.length;i++){
+            for(int j=0;j<a[0].length;j++){
+                res[i][j]=0;
             }
         }
         return res;

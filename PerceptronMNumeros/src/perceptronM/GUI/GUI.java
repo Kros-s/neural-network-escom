@@ -732,8 +732,7 @@ public class GUI extends JFrame {
 
     private void btnEvaluarGridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvaluarGridActionPerformed
         
-        Draw_Grid(6);
-        /*
+        //Draw_Grid(6);
         if(l == null){
             JOptionPane.showConfirmDialog(jPanel1, "Primero Entrene las Vocales" ,"ERROR",JOptionPane.PLAIN_MESSAGE,0);
             return;
@@ -741,23 +740,23 @@ public class GUI extends JFrame {
             JOptionPane.showConfirmDialog(jPanel1, "No Aprendio, no se puede evaluar" ,"ERROR",JOptionPane.PLAIN_MESSAGE,0);
             return;
         }
-        int index_vocal = -1;
+        int indexNumero = -1;
         //JOptionPane.showConfirmDialog(jPanel1, "Patrón no clasificado" ,"ERROR",JOptionPane.PLAIN_MESSAGE,0);
         panelMaestroOut.removeAll();
         Grid_Output();
         
         Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Evaluar Grid\n");
-        index_vocal = l.TestGrid(Const.prueba);
-        if(index_vocal>=0){
-            Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Letra Detectada: ").append(Const.abecedario[index_vocal]).append("\n");
+        indexNumero = l.TestGrid(Const.prueba);
+        if(indexNumero>=0){
+            Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Numero Detectado: ").append(Const.numeros[indexNumero]).append("\n");
         //Draw_Grid(2);
-        System.out.println("Letra detectada: "+Const.abecedario[l.TestGrid(Const.prueba)]);
+        System.out.println("Numero detectad:o "+Const.numeros[l.TestGrid(Const.prueba)]);
             Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Dibujar en Grid_Out\n");
-        Draw_Grid(index_vocal);
+        Draw_Grid(indexNumero);
         }//else {
             float ap[][] = l.TestGrid2(Const.prueba);
             //System.out.println("Salida Hardlim ");
-            Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append("- Salida Hardlim: \n");
+            Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append("- Salida Lineal: \n");
             for(int i=0;i<ap.length;i++){
                 //System.out.println(ap[i][0]);
                 Const.LogTexto.append(ap[i][0]).append("\n");
@@ -767,7 +766,7 @@ public class GUI extends JFrame {
         GUI.txtLogger.append(Const.LogTexto.toString());
         Const.LogTexto.setLength(0);
         //Const.Log(Const.LogTexto.toString());
-        */
+        
     }//GEN-LAST:event_btnEvaluarGridActionPerformed
 
     private void btnEvaluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvaluarActionPerformed
