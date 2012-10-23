@@ -131,4 +131,15 @@ public final class Matriz {
         return res;
     }
     
+    public static float[][][] zeros(float a[][][]){
+        float [][][] res = new float[a.length][a[0].length][a[0][0].length];
+        for(int k=0;k<a.length;k++){
+            for(int i=0;i<a[0].length;i++){
+                for(int j=0;j<a[0][0].length;j++){
+                    res[i][j][k]=0;
+                }
+            }
+        }
+        return res;
+    }
 } 

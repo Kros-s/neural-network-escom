@@ -1,5 +1,11 @@
 package perceptronM.GUI;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -14,67 +20,24 @@ public class Ayuda extends JFrame {
     /** 
      * Crea un formulario de Ayuda
      */  
-    String a = "LetrasImagenes\\a.jpg";
-    String b = "LetrasImagenes\\b.jpg";
-    String c = "LetrasImagenes\\c.jpg";
-    String d = "LetrasImagenes\\d.jpg";
-    String e = "LetrasImagenes\\e.jpg";
-    String f = "LetrasImagenes\\f.jpg";
-    String g = "LetrasImagenes\\g.jpg";
-    String h = "LetrasImagenes\\h.jpg";
-    String i = "LetrasImagenes\\i.jpg";
-    String j = "LetrasImagenes\\j.jpg";
-    String k = "LetrasImagenes\\k.jpg";
-    String l = "LetrasImagenes\\l.jpg";
-    String m = "LetrasImagenes\\m.jpg";
-    String n = "LetrasImagenes\\n.jpg";
-    String o = "LetrasImagenes\\o.jpg";
-    String p = "LetrasImagenes\\p.jpg";
-    String q = "LetrasImagenes\\q.jpg";
-    String r = "LetrasImagenes\\r.jpg";
-    String s = "LetrasImagenes\\s.jpg";
-    String t = "LetrasImagenes\\t.jpg";
-    String u = "LetrasImagenes\\u.jpg";
-    String v = "LetrasImagenes\\v.jpg";
-    String w = "LetrasImagenes\\w.jpg";
-    String x = "LetrasImagenes\\x.jpg";
-    String y = "LetrasImagenes\\y.jpg";
-    String z = "LetrasImagenes\\z.jpg";
-    
-    
-    Icon ico[] = new ImageIcon[26];
+    Icon ico[] = new ImageIcon[30];
     short index = 0;
     
     public Ayuda() {
         initComponents();
-        ico[0] = new ImageIcon(a);
-        ico[1] = new ImageIcon(b);
-        ico[2] = new ImageIcon(c);
-        ico[3] = new ImageIcon(d);
-        ico[4] = new ImageIcon(e);
-        ico[5] = new ImageIcon(f);
-        ico[6] = new ImageIcon(g);
-        ico[7] = new ImageIcon(h);
-        ico[8] = new ImageIcon(i);
-        ico[9] = new ImageIcon(j);
-        ico[10] = new ImageIcon(k);
-        ico[11] = new ImageIcon(l);
-        ico[12] = new ImageIcon(m);
-        ico[13] = new ImageIcon(n);
-        ico[14] = new ImageIcon(o);
-        ico[15] = new ImageIcon(p);
-        ico[16] = new ImageIcon(q);
-        ico[17] = new ImageIcon(r);
-        ico[18] = new ImageIcon(s);
-        ico[19] = new ImageIcon(t);
-        ico[20] = new ImageIcon(u);
-        ico[21] = new ImageIcon(v);
-        ico[22] = new ImageIcon(w);
-        ico[23] = new ImageIcon(x);
-        ico[24] = new ImageIcon(y);
-        ico[25] = new ImageIcon(z);
-        
+        List< String > letras = new ArrayList(Const.TotalDigitos*Const.NumJuegos);
+        for(int i =0;i<Const.TotalDigitos;i++)
+        {
+            letras.add("LetrasImagenes\\AgencyFB_"+i+".jpg");
+            letras.add("LetrasImagenes\\Arial_"+i+".jpg");
+            letras.add("LetrasImagenes\\TimesNewRoman_"+i+".jpg");
+        }
+        Collections.sort(letras);
+        for(int i=0;i<Const.TotalDigitos*Const.NumJuegos;i++){
+            ico[i]=new ImageIcon(letras.get(i));
+        }
         imaIcon.setIcon(ico[index]);
+     
     }
 
     /**
@@ -158,7 +121,7 @@ public class Ayuda extends JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(imaIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+                        .addComponent(imaIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton2)
@@ -176,9 +139,7 @@ public class Ayuda extends JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel1.getAccessibleContext().setAccessibleDescription("");
@@ -188,7 +149,7 @@ public class Ayuda extends JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        if(index<(Const.TotalDigitos-1)){
+        if(index<((Const.TotalDigitos*Const.NumJuegos)-1)){
             index++;
             imaIcon.setIcon(ico[index]);
         }
@@ -202,7 +163,7 @@ public class Ayuda extends JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
         if (index <= 0){
-            index = 25;
+            index = (Const.TotalDigitos*Const.NumJuegos)-1;
             imaIcon.setIcon(ico[index]);
         }else{
             index--;

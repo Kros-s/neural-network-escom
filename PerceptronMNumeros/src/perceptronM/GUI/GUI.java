@@ -23,7 +23,7 @@ import perceptronM.Model.Test;
  * @author PRETXEL-H
  * @author imarban
  * Interfaz gráfica principal de la aplicación, que contiene dos grids, uno de entrada
- * y otro de salida. También cuenta un un Log, para verificar los calculos realizsados.
+ * y otro de salida. También cuenta un un Log, para verificar los calculos realizados.
  */
 public class GUI extends JFrame {
     

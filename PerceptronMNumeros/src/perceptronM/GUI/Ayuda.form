@@ -31,10 +31,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <Component id="jPanel1" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
+          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -97,7 +94,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="imaIcon" pref="322" max="32767" attributes="0"/>
+                          <Component id="imaIcon" pref="371" max="32767" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -125,8 +122,8 @@
           <SubComponents>
             <Component class="javax.swing.JTextArea" name="jTextArea1">
               <Properties>
-                <Property name="columns" type="int" value="20"/>
                 <Property name="editable" type="boolean" value="false"/>
+                <Property name="columns" type="int" value="20"/>
                 <Property name="lineWrap" type="boolean" value="true"/>
                 <Property name="rows" type="int" value="5"/>
                 <Property name="text" type="java.lang.String" value="Las siguientes letras de avecedario estan definidas en el programa, para que una red neuronal tipo perceptr&#xf3;n aprenda y trate de predecir la letra  en caso de que alg&#xfa;n pixel falte.&#xa;&#xa;Tambi&#xe9;n se Implemento un algoritmo de auto aprendizaje ya que en cada entrenamiento la red halla una soluci&#xf3;n de muchas por lo tanto se realizo un conjunto de pruebas para que las evaluar&#xe1;.&#xa;Se entrena 10 veces seguidas y cada uno se evalua al conjunto de pruebas posteriormente se obtiene una calificaci&#xf3;n dependiendo de los aciertos obtenidos, los aciertos se calculan comparando la salida esperada con la salida que se obtiene.&#xa;&#xa;Por lo tanto en cada uno de las 10 soluciones se obtiene una calificaci&#xf3;n y si supera la calificaci&#xf3;n del soluci&#xf3;n que esta fija, se guardan en un archivo(properties) y te marcan como valores fijos."/>

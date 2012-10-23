@@ -222,7 +222,7 @@ public class Logic {
     
     //Metodo que Realiza la propagacion hacia adelante de todos los numeros
     public void propagacion_adelante(int index){
-        Matriz.zeros(error[0]);
+        error = new float[Const.NumJuegos*10][Const.TotalPatrones/4][1];
         if (index >= 0 && index < 10)
         {
             float en[][] = Matriz.copy(Const.entradas_1, index);
@@ -262,14 +262,13 @@ public class Logic {
     public void RMS(){
         float sum;
             for(int j=0;j<Const.TotalDigitos;j++){
-              sum=0f;
+                sum=0f;
                 for (int i=0;i<Const.TotalDigitos*Const.NumJuegos;i++){
-                
                     //sum = (float) (sum + Math.exp(error[i][j][0]));
                     sum = (float) (sum + Math.pow(error[i][j][0],2));
-            }
-            //errorRMS[j][0] = (float) (sum/Const.TotalDigitos);
-            errorRMS[j][0] = (float) (sum/Const.TotalDigitos*Const.NumJuegos);
+                }
+                //errorRMS[j][0] = (float) (sum/Const.TotalDigitos);
+                errorRMS[j][0] = (float) (sum/(Const.TotalDigitos*Const.NumJuegos));
         }
         
     }
@@ -320,10 +319,11 @@ public class Logic {
         return flag;
     }
     
-    public boolean verificaError(float a[][]){
+    public boolean verificaError(float a[][], float target[][], int numero){
         boolean flag = true;
         for(int i=0;i<a.length;i++){
-            double b=Math.sqrt(Math.pow(((double)a[i][0]),2));
+            //double b=Math.sqrt(Math.pow(((double)a[i][0]),2));
+            double b=Math.abs((double)a[i][0]);
             if (b>Const.errorObjt){
                 flag = false;
                 break;
@@ -407,18 +407,18 @@ public class Logic {
               System.out.println("Salida "+ fn[i][j]);*/
         
         for(int i=0;i<Const.target_1.length;i++){
-            if(verificaError(Matriz.resta(Const.target_1, fn, i))){
+            if(verificaError(Matriz.resta(Const.target_1, fn, i), Const.target_1, i)){
                 return i;
             }
         }  
          for(int j=0;j<Const.target_2.length;j++){
-            if(verificaError(Matriz.resta(Const.target_2, fn,j))){
+            if(verificaError(Matriz.resta(Const.target_2, fn, j), Const.target_2, j)){
                 return j;
             }
          }
             
          for(int k=0;k<Const.target_3.length;k++){
-            if(verificaError(Matriz.resta(Const.target_3, fn, k))){
+            if(verificaError(Matriz.resta(Const.target_3, fn, k), Const.target_3, k)){
                 return k;
             }
         }
