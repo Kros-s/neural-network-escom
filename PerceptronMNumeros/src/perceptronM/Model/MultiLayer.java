@@ -24,7 +24,7 @@ import perceptronM.GUI.GUI;
  */
 public class MultiLayer {
         private static String CLASSNAME = MultiLayer.class.getName();
-        private static double  SalidaTest[][] = new double[10][10]; 
+        private static double  SalidaTest[][] = new double[10][30]; 
         public static NeuralNetwork redMulticapa = null;
         
 public static void Ini() {
@@ -47,6 +47,26 @@ trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,1,1,1,0,1,1,
 trainingSet.addElement(new SupervisedTrainingElement(new double[]{1,1,1,1,1,0,0,0,1,1,0,0,1,1,0,0,0,1,1,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0}, new double[]{0,0,0,0,0,0,0,1,0,0}));
 trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,1,1,1,0,1,1,0,1,1,1,1,0,1,1,0,1,1,1,0,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,0,1,1,1,0}, new double[]{0,0,0,0,0,0,0,0,1,0}));
 trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,1,1,1,0,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,0,1,1,1,1,0,0,0,1,1,1,1,0,1,1,0,1,1,1,0}, new double[]{0,0,0,0,0,0,0,0,0,1}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{1,1,1,1,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,1,1,1,1}, new double[]{1,0,0,0,0,0,0,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,0,1,0,0,0,1,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0}, new double[]{0,1,0,0,0,0,0,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{1,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,1,1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1,1,1,1,1}, new double[]{0,0,1,0,0,0,0,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{1,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,1,1,0,0,0,0,1,1,0,0,0,1,1,1,1,1,1}, new double[]{0,0,0,1,0,0,0,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,0,0,1,0,0,0,1,0,0,0,1,0,1,0,1,0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0}, new double[]{0,0,0,0,1,0,0,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{1,1,1,1,1,1,0,0,0,0,1,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,0,0,0,1,1,0,0,0,1,1,1,1,1,1}, new double[]{0,0,0,0,0,1,0,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{1,1,1,1,1,1,0,0,0,1,1,0,0,0,0,1,1,1,1,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,1,1,1,1}, new double[]{0,0,0,0,0,0,1,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{1,1,1,1,1,1,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0}, new double[]{0,0,0,0,0,0,0,1,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{1,1,1,1,1,1,0,0,0,1,1,0,0,0,1,0,1,1,1,0,0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,1,1,1,1,1}, new double[]{0,0,0,0,0,0,0,0,1,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{1,1,1,1,1,1,0,0,0,1,1,0,0,0,1,1,1,1,1,1,0,0,0,0,1,0,0,0,0,1,1,0,0,0,1,1,1,1,1,1}, new double[]{0,0,0,0,0,0,0,0,0,1}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,0,1,1,1,0}, new double[]{1,0,0,0,0,0,0,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,0,1,0,0,0,1,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1,0}, new double[]{0,1,0,0,0,0,0,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1,1,1,1,1}, new double[]{0,0,1,0,0,0,0,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,1,1,1,0,1,0,0,0,1,0,0,0,0,1,0,0,1,1,0,0,0,1,1,0,0,0,0,0,1,1,0,0,0,1,0,1,1,1,0}, new double[]{0,0,0,1,0,0,0,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,0,0,1,0,0,0,1,1,0,0,1,0,1,0,1,0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0}, new double[]{0,0,0,0,1,0,0,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,0,1,1,1,0,1,0,0,0,1,0,0,0,0,1,1,1,1,0,0,0,0,0,1,0,0,0,0,1,1,0,0,0,1,0,1,1,1,0}, new double[]{0,0,0,0,0,1,0,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,0,1,1,1,0,1,0,0,0,1,0,0,0,0,1,1,1,1,0,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,0,1,1,1,0}, new double[]{0,0,0,0,0,0,1,0,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,1,1,1,1,1,0,0,0,1,0,0,0,1,1,0,0,1,1,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0}, new double[]{0,0,0,0,0,0,0,1,0,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,0,1,1,1,0}, new double[]{0,0,0,0,0,0,0,0,1,0}));
+trainingSet.addElement(new SupervisedTrainingElement(new double[]{0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,1,1,1,1,0,0,0,0,1,0,0,0,1,1,0,0,1,1,0,0,1,1,0,0}, new double[]{0,0,0,0,0,0,0,0,0,1}));
 
 
 TrainingSet<SupervisedTrainingElement> trainingSet2 = new TrainingSet<SupervisedTrainingElement>(40, 10);

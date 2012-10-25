@@ -44,8 +44,8 @@ public class GUI extends JFrame {
          public void mousePressed(MouseEvent e) {
             JPanel panel = (JPanel) panelMaestroIn.getComponentAt(e.getPoint());
             Point p = e.getPoint();
-            System.out.println("xc="+(p.x)+" yc="+(p.y));
-            System.out.println("x="+(p.x)/Const.W+" y="+(p.y)/Const.W);
+            //System.out.println("xc="+(p.x)+" yc="+(p.y));
+            //System.out.println("x="+(p.x)/Const.W+" y="+(p.y)/Const.W);
             
             if (panel == null ) {
               return;
@@ -67,7 +67,7 @@ public class GUI extends JFrame {
                     && p.y != 395 && p.y != 396 && p.y != 397 && p.y != 398 && p.y != 399 && p.y != 400) 
             {
             selectedPanel = panel;
-            System.out.println(selectedPanel.getBackground());
+            //System.out.println(selectedPanel.getBackground());
            
             
             if (Color.black == selectedPanel.getBackground()|| Const.prueba[((p.y)/Const.W)*Const.COLUMN_COUNT + (p.x)/Const.W][0] == 1){
@@ -83,7 +83,7 @@ public class GUI extends JFrame {
             selectedPanel.repaint();
             
             for(int r=0;r<Const.COLUMN_COUNT*Const.ROW_COUNT;r++){
-                System.out.println("i ="+r+" val="+Const.prueba[r][0]);
+                //System.out.println("i ="+r+" val="+Const.prueba[r][0]);
             }
 
             }
