@@ -225,8 +225,7 @@
                                       <Component id="btnLogger" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="btnEvaluar" min="-2" pref="121" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
                                       <Component id="btnEvaluarGrid" min="-2" pref="121" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -278,10 +277,7 @@
                           <Component id="btnEntrenar2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnEvaluar" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnEvaluarGrid" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="btnEvaluarGrid" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
@@ -329,14 +325,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEvaluarGridActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnEvaluar">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Evaluar"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEvaluarActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEntrenar">
@@ -459,6 +447,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="label" type="java.lang.String" value="Set Pruebas"/>
           </Properties>
           <Events>

@@ -14,9 +14,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import org.neuroph.core.NeuralNetwork;
 import perceptronM.Model.Const;
 import perceptronM.Model.Logic;
 import perceptronM.Model.Muestras;
+import perceptronM.Model.MultiLayer;
 import perceptronM.Model.Test;
 
 /**
@@ -295,7 +297,6 @@ public class GUI extends JFrame {
         jPanel3 = new javax.swing.JPanel();
         btnLimpiar = new javax.swing.JButton();
         btnEvaluarGrid = new javax.swing.JButton();
-        btnEvaluar = new javax.swing.JButton();
         btnEntrenar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         txtLimiteEpocas = new javax.swing.JTextField();
@@ -377,13 +378,6 @@ public class GUI extends JFrame {
             }
         });
 
-        btnEvaluar.setText("Evaluar");
-        btnEvaluar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEvaluarActionPerformed(evt);
-            }
-        });
-
         btnEntrenar.setText("Entrenar Aleatorio");
         btnEntrenar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -456,8 +450,7 @@ public class GUI extends JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnLogger, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(btnEvaluar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(139, 139, 139)
                                 .addComponent(btnEvaluarGrid, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -493,9 +486,7 @@ public class GUI extends JFrame {
                     .addComponent(btnEntrenar)
                     .addComponent(btnEntrenar2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEvaluar)
-                    .addComponent(btnEvaluarGrid))
+                .addComponent(btnEvaluarGrid)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -534,6 +525,7 @@ public class GUI extends JFrame {
             }
         });
 
+        jButton1.setEnabled(false);
         jButton1.setLabel("Set Pruebas");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -598,15 +590,14 @@ public class GUI extends JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAcercade)
                             .addComponent(jButton2)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel1))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4)
@@ -691,8 +682,9 @@ public class GUI extends JFrame {
         }
         
         //l = new Logic();
-        l.init();
-        l.train();
+        //l.init();
+        //l.train();
+        MultiLayer.Ini();
         txtNumEpocas.setText(String.valueOf(Logic.NumEpocas));
          /*
           * Voy a añadir la parte donde almacena los 10 entrenamientos en un array
@@ -746,42 +738,29 @@ public class GUI extends JFrame {
         Grid_Output();
         
         Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Evaluar Grid\n");
-        indexNumero = l.TestGrid(Const.prueba);
+        //indexNumero = l.TestGrid(Const.prueba);
+        indexNumero = MultiLayer.EvaluarGrid();
+        
+        System.out.println(indexNumero);
+        
         if(indexNumero>=0){
             Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Numero Detectado: ").append(Const.numeros[indexNumero]).append("\n");
         //Draw_Grid(2);
-        System.out.println("Numero detectad:o "+Const.numeros[l.TestGrid(Const.prueba)]);
+        System.out.println("Numero detectad:o "+Const.numeros[indexNumero]);
             Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Dibujar en Grid_Out\n");
         Draw_Grid(indexNumero);
         }//else {
-            float ap[][] = l.TestGrid2(Const.prueba);
-            //System.out.println("Salida Hardlim ");
+            /*float ap[][] = l.TestGrid2(Const.prueba);
             Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append("- Salida Lineal: \n");
             for(int i=0;i<ap.length;i++){
-                //System.out.println(ap[i][0]);
                 Const.LogTexto.append(ap[i][0]).append("\n");
                 
             //}
         }
         GUI.txtLogger.append(Const.LogTexto.toString());
         Const.LogTexto.setLength(0);
-        //Const.Log(Const.LogTexto.toString());
-        
+        */
     }//GEN-LAST:event_btnEvaluarGridActionPerformed
-
-    private void btnEvaluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvaluarActionPerformed
-        if(l==null ){
-            JOptionPane.showConfirmDialog(jPanel1, "Primero Entrene los Numeros" ,"ERROR",JOptionPane.PLAIN_MESSAGE,0);
-            return;
-        }else if (Logic.aprendio == false){
-            JOptionPane.showConfirmDialog(jPanel1, "No Aprendio, no se puede evaluar" ,"ERROR",JOptionPane.PLAIN_MESSAGE,0);
-            return;
-        }
-        else{
-            l.Test();
-     
-        }
-    }//GEN-LAST:event_btnEvaluarActionPerformed
 
     private void btnAcercadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcercadeActionPerformed
         Acerca.start();
@@ -807,10 +786,15 @@ public class GUI extends JFrame {
     }//GEN-LAST:event_btnEntrenar1ActionPerformed
 
     private void btnEntrenar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrenar2ActionPerformed
-              
+            // load saved neural network
+            Const.LogTexto.append(Const.LogDate()).append(" ").append(CLASSNAME).append(" - Carga Valores Fijos\n");
+            GUI.txtLogger.append(Const.LogTexto.toString());
+            Const.LogTexto.setLength(0);
+            MultiLayer.redMulticapa= NeuralNetwork.load("redMNumeros.nnet");
+            Logic.aprendio = true;
             //l=new Logic();
              //l.fijarValores_Properties(); //Agregar valores de l
-            Const.valoresFijos(); 
+            //Const.valoresFijos(); 
     }//GEN-LAST:event_btnEntrenar2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -832,7 +816,6 @@ public class GUI extends JFrame {
     private javax.swing.JButton btnEntrenar;
     private javax.swing.JButton btnEntrenar1;
     private javax.swing.JButton btnEntrenar2;
-    private javax.swing.JButton btnEvaluar;
     private javax.swing.JButton btnEvaluarGrid;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JToggleButton btnLogger;

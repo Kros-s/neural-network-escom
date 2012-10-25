@@ -102,7 +102,7 @@ public final class Matriz {
             for(int j=0;j<a.length;j++){
                 if (i==j){
                     //result[i][j] = a[i][0];
-                    result[i][j] = 1;
+                    result[i][j] = (1-a[i][0]) * a[i][0];
                 }else{
                     result[i][j] = 0;
                 }

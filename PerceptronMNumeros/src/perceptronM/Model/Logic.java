@@ -90,25 +90,25 @@ public class Logic {
         //Inicializa el Peso W1
         for(int i=0;i<Const.TotalPatrones/2;i++){
             for(int j=0;j<Const.TotalPatrones;j++){
-                W1[i][j] = generator.nextFloat();
+                W1[i][j] = (float) Math.random() * (1 + 1 ) -1 ;
             }
         }
         
          //Inicializa el Peso W2
         for(int i=0;i<Const.TotalPatrones/4;i++){
             for(int j=0;j<Const.TotalPatrones/2;j++){
-                W2[i][j] = generator.nextFloat();
+                W2[i][j] = (float) Math.random() * (1 + 1 ) -1 ;
             }
         }
         
          //Inicializa el Umbral b1
         for(int i=0;i<Const.TotalPatrones/2;i++){
-            b1[i][0] = generator.nextFloat();
+            b1[i][0] = (float) Math.random() * (1 + 1 ) -1 ;
         }
         
          //Inicializa el Umbral b2
         for(int i=0;i<Const.TotalPatrones/4;i++){
-            b2[i][0] = generator.nextFloat();
+            b2[i][0] = (float) Math.random() * (1 + 1 ) -1 ;
         }
     }
     
@@ -140,7 +140,7 @@ public class Logic {
                         //Calcula las sensibilidades
                         retropropagacion();
                         //Actualiza los pesos y los umbrales
-                        W2 = updatePesos_W2();
+                        W2 = updatePesos_W2(); 
                         b2 = updateB2();
                         W1 = updatePesos_W1();
                         b1 = updateB1();
@@ -222,7 +222,7 @@ public class Logic {
     
     //Metodo que Realiza la propagacion hacia adelante de todos los numeros
     public void propagacion_adelante(int index){
-        error = new float[Const.NumJuegos*10][Const.TotalPatrones/4][1];
+        //error = new float[Const.NumJuegos*10][Const.TotalPatrones/4][1];
         if (index >= 0 && index < 10)
         {
             float en[][] = Matriz.copy(Const.entradas_1, index);
@@ -254,24 +254,25 @@ public class Logic {
          }
         
         float iden[][] = Matriz.identidad(a1);
-        s1=Matriz.producto(Matriz.producto(Matriz.producto(Matriz.producto(Matriz.resta(1, a1),a1), iden), Matriz.transpuesta(W2)), s2);
+        s1=Matriz.producto(Matriz.producto(iden, Matriz.transpuesta(W2)), s2);
         //s1 = Matriz.producto(Matriz.producto(iden, Matriz.transpuesta(W2)),s2);
     }
     
     //Metodo  que calcula el error medio cuadratico
     public void RMS(){
         float sum;
-            for(int j=0;j<Const.TotalDigitos;j++){
-                sum=0f;
-                for (int i=0;i<Const.TotalDigitos*Const.NumJuegos;i++){
-                    //sum = (float) (sum + Math.exp(error[i][j][0]));
-                    sum = (float) (sum + Math.pow(error[i][j][0],2));
+        
+            for (int i=0;i<Const.TotalDigitos;i++){
+                sum = 0f;  
+                for (int j=0;j<Const.TotalDigitos*Const.NumJuegos;j++){
+                    sum = (float) (sum + Math.pow(error[j][i][0],2));
                 }
-                //errorRMS[j][0] = (float) (sum/Const.TotalDigitos);
-                errorRMS[j][0] = (float) (sum/(Const.TotalDigitos*Const.NumJuegos));
+                errorRMS[i][0] = (float) Math.sqrt(sum/(Const.TotalDigitos*Const.NumJuegos));
+                
+            }
         }
         
-    }
+    
     
     
     public float[][] error (float t[][], float a[][], int numero){
@@ -297,7 +298,7 @@ public class Logic {
         float res[][] = new float[a.length][1];
         for(int i=0;i<a.length;i++){
             //System.out.println("Resultado antes de ser evaluado"+a[i][0]); 
-                res[i][0] = (float) (1/(1+Math.exp(a[i][0])));
+                res[i][0] = (float) (1/(1+Math.exp(-1*a[i][0])));
         }
         return res;
     }
